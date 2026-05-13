@@ -1,5 +1,15 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
+//------------------------------------------------------------------------------------------------
+// File Name: BinaryTree.h
+// Written by: Oscar Lan
+//------------------------------------------------------------------------------------------------
+// Contents:
+//
+// Contains the structure definitions and class declaration for the BST and AVL Tree 
+// implementation. Defines the record and node structures, private helper methods, traversal methods, 
+// insertion and deletion operations, AVL balancing functions, and tree management functionality.
+//------------------------------------------------------------------------------------------------
 
 #include "Standard.h"
 
@@ -44,8 +54,8 @@ private:
 
 public:
 
-    binaryTree(); //constructor
-    ~binaryTree(); //destructor
+    binaryTree();               //constructor
+    ~binaryTree();              //destructor
 
     int GetNodeCount();
     bool IsTreeEmpty(node* pNode);

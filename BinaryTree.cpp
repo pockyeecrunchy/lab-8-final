@@ -1,45 +1,110 @@
 #include "BinaryTree.h"
 #include "Standard.h"
 
-//Constructor method
+//------------------------------------------------------------------------------------------------
+// File Name: BinaryTree.cpp
+// Written by: Oscar Lan
+//------------------------------------------------------------------------------------------------
+// Contents:
+//
+// Contains the implementation of the Binary Search Tree and AVL Tree class
+// methods. Includes recursive traversal methods, insertion and deletion
+// operations, AVL balancing functions, tree rotations, height management,
+// node counting, and dynamic memory cleanup functionality.
+//
+//------------------------------------------------------------------------------------------------
+
+
+
+//------------------------------------------------------------------------------------------------
+// Method Name: binaryTree
+// Description:
+//
+// Initializes the binary tree by setting the root pointer to nullptr and initializing the node 
+// counter to 0.
+//------------------------------------------------------------------------------------------------
+
 binaryTree::binaryTree()
 {
 	_pRoot = nullptr;
 	_nodeCount = 0;
 }
 
-//Destructor method
+//------------------------------------------------------------------------------------------------
+// Method Name: ~binaryTree
+// Description:
+//
+// Frees all dynamically allocated nodes in the binary tree and resets the root pointer to nullptr.
+//------------------------------------------------------------------------------------------------
 binaryTree::~binaryTree()
 {
 	FreeAllNodes(_pRoot);
 	_pRoot = nullptr;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: GetNodeCount
+// Description:
+//
+// Returns the current number of nodes stored in the binary tree.
+//------------------------------------------------------------------------------------------------
 int binaryTree::GetNodeCount()
 {
 	return _nodeCount;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: IncreaseNodeCount
+// Description:
+//
+// Increases the node counter by 1 after a new node is inserted into the binary tree.
+//------------------------------------------------------------------------------------------------
 void binaryTree::IncreaseNodeCount()
 {
 	_nodeCount++; //increase the node count by 1
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: DecreaseNodecount
+// Description:
+//
+// Decreases the node counter by 1 after a node is removed from the binary tree.
+//------------------------------------------------------------------------------------------------
 void binaryTree::DecreaseNodecount()
 {
 	_nodeCount--; //decrease the node count by 1
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: IsTreeEmpty
+// Description:
+//
+// Determines whether the provided node pointer is equal to nullptr. Returns true if the node is 
+// empty and false otherwise.
+//------------------------------------------------------------------------------------------------
 bool binaryTree::IsTreeEmpty(node* pNode)
 {
 	return (pNode == nullptr);
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: GetRoot
+// Description:
+//
+// Returns the root pointer of the binary tree.
+//------------------------------------------------------------------------------------------------
 node* binaryTree::GetRoot()
 {
 	return _pRoot;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: FreeAllNodes
+// Description:
+//
+// Recursively traverses the binary tree, deletes all dynamically allocated nodes, and decreases
+//  the node counter as nodes are removed.
+//------------------------------------------------------------------------------------------------
 void binaryTree::FreeAllNodes(node* pCurrent)
 {
 	//Base case
@@ -54,6 +119,13 @@ void binaryTree::FreeAllNodes(node* pCurrent)
 	DecreaseNodecount();
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: PreOrderSearch
+// Description:
+//
+// Performs a recursive pre-order traversal of the binary tree and applies the provided function 
+// pointer to each visited node value.
+//------------------------------------------------------------------------------------------------
 int binaryTree::PreOrderSearch(node* pCurrentNode, int (*func)(int valueA, int valueB))
 {
 	if (pCurrentNode == nullptr) return 0; //base value
@@ -66,6 +138,13 @@ int binaryTree::PreOrderSearch(node* pCurrentNode, int (*func)(int valueA, int v
 	return result;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: InOrderSearch
+// Description:
+//
+// Performs a recursive in-order traversal of the binary tree and applies the provided function 
+// pointer to each visited node value.
+//------------------------------------------------------------------------------------------------
 int binaryTree::InOrderSearch(node* pCurrentNode, int (*func)(int valueA, int valueB))
 {
 	if (pCurrentNode == nullptr) return 0; //base value
@@ -78,6 +157,13 @@ int binaryTree::InOrderSearch(node* pCurrentNode, int (*func)(int valueA, int va
 	return result;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: PostOrderSearch
+// Description:
+//
+// Performs a recursive post-order traversal of the binary tree and applies the provided function 
+// pointer to each visited node value.
+//------------------------------------------------------------------------------------------------
 int binaryTree::PostOrderSearch(node* pCurrentNode, int (*func)(int valueA, int valueB))
 {
 	if (pCurrentNode == nullptr) return 0; //base case
@@ -90,6 +176,13 @@ int binaryTree::PostOrderSearch(node* pCurrentNode, int (*func)(int valueA, int 
 	return result;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: PreOrderSearch
+// Description:
+//
+// Performs a recursive pre-order traversal of the binary tree and writes each visited node value 
+// to the output file stream.
+//------------------------------------------------------------------------------------------------
 void binaryTree::PreOrderSearch(ofstream& out, node* pCurrentNode)
 {
 	if (pCurrentNode == nullptr) return;
@@ -102,6 +195,13 @@ void binaryTree::PreOrderSearch(ofstream& out, node* pCurrentNode)
 	PreOrderSearch(out, pCurrentNode->pRight);
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: InOrderSearch
+// Description:
+//
+// Performs a recursive in-order traversal of the binary tree and writes each visited node value to 
+// the output file stream.
+//------------------------------------------------------------------------------------------------
 void binaryTree::InOrderSearch(ofstream& out, node* pCurrentNode)
 {
 	if (pCurrentNode == nullptr) return;
@@ -114,6 +214,13 @@ void binaryTree::InOrderSearch(ofstream& out, node* pCurrentNode)
 	InOrderSearch(out, pCurrentNode->pRight);
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: PostOrderSearch
+// Description:
+//
+// Performs a recursive post-order traversal of the binary tree and writes each visited node value to 
+// the output file stream.
+//------------------------------------------------------------------------------------------------
 void binaryTree::PostOrderSearch(ofstream& out, node* pCurrentNode)
 {
 	if (pCurrentNode == nullptr) return;
@@ -125,6 +232,13 @@ void binaryTree::PostOrderSearch(ofstream& out, node* pCurrentNode)
 	out << pCurrentNode->record.number << " ";
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: InsertNode
+// Description:
+//
+// Recursively searches for the correct location in the binary tree to insert a new node. After 
+// insertion, the method recalculates and updates the height of each node while the recursion unwinds.
+//------------------------------------------------------------------------------------------------
 node* binaryTree::InsertNode(node* pCurrent, node* pNewNode)
 {
 	//Base Case
@@ -149,6 +263,13 @@ node* binaryTree::InsertNode(node* pCurrent, node* pNewNode)
 	return pCurrent;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: Insert
+// Description:
+//
+// Inserts a new node into the binary tree by calling InsertNode, increases the node count, 
+// updates the root height, and re-balances the AVL tree.
+//------------------------------------------------------------------------------------------------
 void binaryTree::Insert(node* pNewNode)
 {
 	//insert note into the tree
@@ -170,6 +291,14 @@ void binaryTree::Insert(node* pNewNode)
 	RebalanceTree();
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: DeleteNode
+// Description:
+//
+// Recursively searches the binary tree for a specified value and deletes the matching node. Handles 
+// deletion cases for leaf nodes, nodes with one child, and nodes with two children. Updates node 
+// heights while recursion unwinds.
+//------------------------------------------------------------------------------------------------
 node* binaryTree::DeleteNode(node* pCurrent, int valueToDelete)
 {
 	node* ptemp = nullptr;
@@ -242,6 +371,13 @@ node* binaryTree::DeleteNode(node* pCurrent, int valueToDelete)
 	return pCurrent;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: Delete
+// Description:
+//
+// Removes a specified value from the binary tree by calling DeleteNode, updates the root height, and 
+// re-balances the AVL tree if necessary.
+//------------------------------------------------------------------------------------------------
 void binaryTree::Delete(int valueToDelete)
 {
 	_pRoot = DeleteNode(_pRoot, valueToDelete);
@@ -257,11 +393,23 @@ void binaryTree::Delete(int valueToDelete)
 	RebalanceTree();
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: Max
+// Description:
+//
+// Compares two integer values and returns the larger of the two.
+//------------------------------------------------------------------------------------------------
 int binaryTree::Max(int valueA, int valueB)
 {
 	return (valueA > valueB) ? valueA : valueB;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: GetHeight
+// Description:
+//
+// Returns the height of the specified node. If the node pointer is nullptr, the method returns 0.
+//------------------------------------------------------------------------------------------------
 int binaryTree::GetHeight(node* pNode)
 {
 	if (pNode == nullptr) return 0;
@@ -269,12 +417,25 @@ int binaryTree::GetHeight(node* pNode)
 	return pNode->_height;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: SetHeight
+// Description:
+//
+// Assigns a new height value to the specified node if the node pointer is not equal to nullptr.
+//------------------------------------------------------------------------------------------------
 void binaryTree::SetHeight(node* pNode, int newHeight)
 {
 	if (pNode != nullptr)
 		pNode->_height = newHeight;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: BalanceFactor
+// Description:
+//
+// Calculates the balance factor of a node by subtracting the height of the
+// right subtree from the height of the left subtree.
+//------------------------------------------------------------------------------------------------
 int binaryTree::BalanceFactor(node* pNode)
 {
 	if (pNode == nullptr) return 0;
@@ -284,6 +445,14 @@ int binaryTree::BalanceFactor(node* pNode)
 
 	return leftHeight - rightHeight;
 }
+
+//------------------------------------------------------------------------------------------------
+// Method Name: RebalanceTree
+// Description:
+//
+// Checks the balance factor of the root node and performs AVL tree rotations when the tree becomes 
+// left-heavy or right-heavy.
+//------------------------------------------------------------------------------------------------
 
 void binaryTree::RebalanceTree()
 {
@@ -314,6 +483,14 @@ void binaryTree::RebalanceTree()
 	}
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: RightRotate
+// Description:
+//
+// Performs a right rotation on the specified subtree, updates node heights, and returns the new root 
+// of the rotated subtree.
+//------------------------------------------------------------------------------------------------
+
 node* binaryTree::RightRotate(node* pNode)
 {
 	//assign temp pointers
@@ -332,6 +509,13 @@ node* binaryTree::RightRotate(node* pNode)
 	return pAlpha;
 }
 
+//------------------------------------------------------------------------------------------------
+// Method Name: LeftRotate
+// Description:
+//
+// Performs a left rotation on the specified subtree, updates node heights, and returns the new root 
+// of the rotated subtree.
+//------------------------------------------------------------------------------------------------
 node* binaryTree::LeftRotate(node* pNode)
 {
 	//assign temp pointers

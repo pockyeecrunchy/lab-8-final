@@ -1,6 +1,18 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+//------------------------------------------------------------------------------------------------
+// File Name: Functions.h
+// Written by: Oscar Lan
+//------------------------------------------------------------------------------------------------
+// Contents:
+//
+// Contains the function prototypes used by the Binary Search Tree and AVL Tree program. 
+// Includes functions for reading input data, creating nodes, and helper functions used with 
+// traversal function pointers.
+//
+//------------------------------------------------------------------------------------------------
+
 #include "Standard.h"
 #include "BinaryTree.h"
 
