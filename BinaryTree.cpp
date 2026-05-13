@@ -123,57 +123,72 @@ void binaryTree::FreeAllNodes(node* pCurrent)
 // Method Name: PreOrderSearch
 // Description:
 //
-// Performs a recursive pre-order traversal of the binary tree and applies the provided function 
-// pointer to each visited node value.
+// Performs a recursive pre-order traversal of the binary tree and applies the provided function
+// pointer to each visited node value. Initializes returnValue to the root's number to prevent
+// incorrect comparisons against 0 when using function pointers such as Min.
 //------------------------------------------------------------------------------------------------
 int binaryTree::PreOrderSearch(node* pCurrentNode, int (*func)(int valueA, int valueB))
 {
-	if (pCurrentNode == nullptr) return 0; //base value
+	// Initialize returnValue to -1 if tree is empty, or root's number if not
+	static int returnValue = IsTreeEmpty(_pRoot) ? -1 : _pRoot->record.number;
 
-	int result = pCurrentNode->record.number;
+	// Base case
+	if (pCurrentNode == nullptr) return returnValue;
 
-	result = func(result, PreOrderSearch(pCurrentNode->pLeft, func));
-	result = func(result, PreOrderSearch(pCurrentNode->pRight, func));
+	// Pre-order: visit, left, right
+	returnValue = func(returnValue, pCurrentNode->record.number);
+	PreOrderSearch(pCurrentNode->pLeft, func);
+	PreOrderSearch(pCurrentNode->pRight, func);
 
-	return result;
+	return returnValue;
 }
 
 //------------------------------------------------------------------------------------------------
 // Method Name: InOrderSearch
 // Description:
 //
-// Performs a recursive in-order traversal of the binary tree and applies the provided function 
-// pointer to each visited node value.
+// Performs a recursive in-order traversal of the binary tree and applies the provided function
+// pointer to each visited node value. Initializes returnValue to the root's number to prevent
+// incorrect comparisons against 0 when using function pointers such as Min.
 //------------------------------------------------------------------------------------------------
 int binaryTree::InOrderSearch(node* pCurrentNode, int (*func)(int valueA, int valueB))
 {
-	if (pCurrentNode == nullptr) return 0; //base value
+	// Initialize returnValue to -1 if tree is empty, or root's number if not
+	static int returnValue = IsTreeEmpty(_pRoot) ? -1 : _pRoot->record.number;
 
-	int left = InOrderSearch(pCurrentNode->pLeft, func);
-	int result = func(left, pCurrentNode->record.number);
+	// Base case
+	if (pCurrentNode == nullptr) return returnValue;
 
-	result = func(result, InOrderSearch(pCurrentNode->pRight, func));
+	// In-order: left, visit, right
+	InOrderSearch(pCurrentNode->pLeft, func);
+	returnValue = func(returnValue, pCurrentNode->record.number);
+	InOrderSearch(pCurrentNode->pRight, func);
 
-	return result;
+	return returnValue;
 }
 
 //------------------------------------------------------------------------------------------------
 // Method Name: PostOrderSearch
 // Description:
 //
-// Performs a recursive post-order traversal of the binary tree and applies the provided function 
-// pointer to each visited node value.
+// Performs a recursive post-order traversal of the binary tree and applies the provided function
+// pointer to each visited node value. Initializes returnValue to the root's number to prevent
+// incorrect comparisons against 0 when using function pointers such as Min.
 //------------------------------------------------------------------------------------------------
 int binaryTree::PostOrderSearch(node* pCurrentNode, int (*func)(int valueA, int valueB))
 {
-	if (pCurrentNode == nullptr) return 0; //base case
+	// Initialize returnValue to -1 if tree is empty, or root's number if not
+	static int returnValue = IsTreeEmpty(_pRoot) ? -1 : _pRoot->record.number;
 
-	int result = PostOrderSearch(pCurrentNode->pLeft, func);
-	result = func(result, PostOrderSearch(pCurrentNode->pRight, func));
+	// Base case
+	if (pCurrentNode == nullptr) return returnValue;
 
-	result = func(result, pCurrentNode->record.number);
+	// Post-order: left, right, visit
+	PostOrderSearch(pCurrentNode->pLeft, func);
+	PostOrderSearch(pCurrentNode->pRight, func);
+	returnValue = func(returnValue, pCurrentNode->record.number);
 
-	return result;
+	return returnValue;
 }
 
 //------------------------------------------------------------------------------------------------
