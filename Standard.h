@@ -13,7 +13,7 @@ using namespace std;
 
 typedef unsigned char byte;
 
-const string NAME = "Program Written by: ";
+const string NAME = "Program Written by: Oscar Lan";
 const string SCHOOL = "Broome Community College";
 const string LAB = "Module 8 Lab - Binary Tree ";
 

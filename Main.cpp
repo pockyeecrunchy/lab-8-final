@@ -148,6 +148,16 @@ int main()
 	// Recalculate the maximum value after deletions
 	funcPtr = Max;
 	maxPre = tree.PreOrderSearch(tree.GetRoot(), funcPtr);
+
+	//Recalculated min printed 
+	outPre << "\nMin: " << minPre;
+	outIn << "\nMin: " << minPre;
+	outPost << "\nMin: " << minPre;
+
+	//Recalculated max printed 
+	outPre << "\nMax: " << maxPre;
+	outIn << "\nMax: " << maxPre;
+	outPost << "\nMax: " << maxPre;
 	
 	// Output the updated node count after deletions
 	outPre << "\nNode Count: " << tree.GetNodeCount();
